@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import "./App.css";
+
+import NotificationView from "./components/NotificationView";
 
 const repo = "https://github.com/adueck/pwa-install-demo";
-let deferredPrompt;  
-    
+let deferredPrompt;
+
 function App() {
   const [installable, setInstallable] = useState(false);
 
@@ -17,40 +19,43 @@ function App() {
       setInstallable(true);
     });
 
-    window.addEventListener('appinstalled', () => {
+    window.addEventListener("appinstalled", () => {
       // Log install to analytics
-      console.log('INSTALL: Success');
+      console.log("INSTALL: Success");
     });
   }, []);
 
   const handleInstallClick = (e) => {
-      // Hide the app provided install promotion
-      setInstallable(false);
-      // Show the install prompt
-      deferredPrompt.prompt();
-      // Wait for the user to respond to the prompt
-      deferredPrompt.userChoice.then((choiceResult) => {
-        if (choiceResult.outcome === 'accepted') {
-          console.log('User accepted the install prompt');
-        } else {
-          console.log('User dismissed the install prompt');
-        }
-      });
+    // Hide the app provided install promotion
+    setInstallable(false);
+    // Show the install prompt
+    deferredPrompt.prompt();
+    // Wait for the user to respond to the prompt
+    deferredPrompt.userChoice.then((choiceResult) => {
+      if (choiceResult.outcome === "accepted") {
+        console.log("User accepted the install prompt");
+      } else {
+        console.log("User dismissed the install prompt");
+      }
+    });
   };
-  
+
   return (
     <div className="App">
       <header className="App-header">
         <h2>Install Demo</h2>
-        {installable &&
+        {installable && (
           <button className="install-button" onClick={handleInstallClick}>
             INSTALL ME
           </button>
-        }
+        )}
         <p>
-          <a href={repo} className="App-link">View source on GitHub</a>
+          <a href={repo} className="App-link">
+            View source on GitHub
+          </a>
         </p>
       </header>
+      <NotificationView />
     </div>
   );
 }

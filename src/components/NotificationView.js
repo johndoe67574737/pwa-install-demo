@@ -11,6 +11,10 @@ class NotificationView extends React.Component {
   componentDidMount() {
     document.title = "Dealer Intervention Tool";
 
+    setTimeout(() => {
+      window.Navigator.setAppBadge(1);
+    }, 5000);
+
     this.ws.onopen = () => {
       // on connecting, do nothing but log it to the console
       console.log("connected");

@@ -80,14 +80,6 @@ class NotificationView extends React.Component {
     }
     interval = setInterval(changeTitle, 700);
 
-    // window.onfocus(() => {
-
-    // });
-    // window.focus(function () {
-    //   clearInterval(interval);
-    //   document.title = oldTitle;
-    // });
-
     Notification.requestPermission().then(function () {});
 
     this.notification = new Notification("Dealer Intervention", {
@@ -99,8 +91,9 @@ class NotificationView extends React.Component {
     });
 
     this.notification.addEventListener("click", function () {
+      window.focus();
       // eslint-disable-next-line no-restricted-globals
-      window.focus(); // open("http://localhost:3000");
+      parent.focus();
       document.title = oldTitle;
       clearInterval(interval);
     });
@@ -137,18 +130,12 @@ class NotificationView extends React.Component {
         >
           Windows Notification via react-desktop-notification
         </button>
-        {/* <button
-          className="sendNotification"
-          onClick={() => this.sendNotification(2)}
-        >
-          Using window.focus() via websockets
-        </button>
         <button
           className="sendNotification"
           onClick={() => this.displayWindowsNotification()}
         >
           Send Windows Notification locally
-        </button> */}
+        </button>
       </div>
     );
   }

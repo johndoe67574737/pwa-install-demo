@@ -9,6 +9,7 @@ class NotificationView extends React.Component {
   token = "ca6a6fa6-f403-4595-85fc-615d0d73f521";
 
   componentDidMount() {
+    Notification.requestPermission().then(() => {});
     document.title = "Dealer Intervention Tool";
 
     setTimeout(() => {
@@ -84,22 +85,22 @@ class NotificationView extends React.Component {
     }
     interval = setInterval(changeTitle, 700);
 
-    Notification.requestPermission().then(function () {});
+    Notification.requestPermission().then(() => {
+      const notification = new Notification("Dealer Intervention", {
+        body: "Click here",
+        icon: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_462343.png&f=1&nofb=1",
+        image:
+          "https://images.freeimages.com/images/small-previews/88e/money-money-money-1241634.jpg",
+        requireInteraction: true,
+      });
 
-    this.notification = new Notification("Dealer Intervention", {
-      body: "Click here",
-      icon: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.onlinewebfonts.com%2Fsvg%2Fimg_462343.png&f=1&nofb=1",
-      image:
-        "https://images.freeimages.com/images/small-previews/88e/money-money-money-1241634.jpg",
-      requireInteraction: true,
-    });
-
-    this.notification.addEventListener("click", function () {
-      window.focus();
-      // eslint-disable-next-line no-restricted-globals
-      parent.focus();
-      document.title = oldTitle;
-      clearInterval(interval);
+      notification.addEventListener("click", function () {
+        window.focus();
+        // eslint-disable-next-line no-restricted-globals
+        parent.focus();
+        document.title = oldTitle;
+        clearInterval(interval);
+      });
     });
   }
 
@@ -130,15 +131,9 @@ class NotificationView extends React.Component {
         </button>
         <button
           className="sendNotification"
-          onClick={() => this.sendNotification(1)}
-        >
-          Windows Notification via react-desktop-notification
-        </button>
-        <button
-          className="sendNotification"
           onClick={() => this.displayWindowsNotification()}
         >
-          Send Windows Notification locally
+          Windows Notification locally
         </button>
       </div>
     );
